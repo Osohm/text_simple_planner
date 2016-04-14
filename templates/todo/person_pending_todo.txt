@@ -1,0 +1,24 @@
+***********************
+# Person Pending Todo #
+***********************
+
+----------------------
+## Quick Guidelines ##
+----------------------
+For pending todo: These are short tasks that have not been allocated in 
+our calendar todo. Try to allocate time to complete these ones first or 
+if they are longer term tasks transfer them to our I&P notebook as 
+projects.
+
+-------------------------
+### Unscheduled Tasks ###
+-------------------------
+* Task name.
+    Description of task.
+    
+* Task name.
+    Description of task.
+
+...
+
+

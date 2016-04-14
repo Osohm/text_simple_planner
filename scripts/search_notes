@@ -1,0 +1,19 @@
+#!/bin/bash
+# ======================================================================
+# Search Notes Script.
+# Quick grep script we can use to search throughout our storage directory 
+# for a certain string.
+# Author: Camilo Tejeiro
+# ======================================================================
+
+# Current search directory (change to whatever you please)
+search_directory='/media/camilo/main_storage/'
+
+if [ -z $1 ]; then
+    echo 'search_notes[1]: missing string'
+    echo 'please pass in a valid string to search for' 
+else
+    # Search only text files. Search recursively, display line number,  
+    # ignore case and match whole word.
+    grep --include=*.txt -rniw "$1" "$search_directory"
+fi

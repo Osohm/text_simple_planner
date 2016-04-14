@@ -1,0 +1,45 @@
+***********************
+# Person Pending Todo #
+***********************
+
+----------------------
+## Quick Guidelines ##
+----------------------
+For recurrent todo: Instead of polluting our calendar todo (like gmail 
+or other calendars do) we always use groups for recurrent tasks 
+(e.g. daily todo, weekly todo, monthly todo ...etc.)
+
+--------------------
+### Monthly Todo ###
+--------------------
+* Task name.
+    Description of task.
+
+...
+
+------------------
+### Daily Todo ###
+------------------
+* Task name.
+    Description of task.
+
+* Task name.
+    Description of task.
+
+* Task name.
+    Description of task.
+
+...
+
+--------------------
+### Sundays Todo ###
+--------------------
+* Task name.
+    Description of task.
+    
+* Task name.
+    Description of task.
+    
+...
+
+

@@ -1,0 +1,50 @@
+#!/bin/bash
+# ======================================================================
+# Make Calendar Todo Template
+# Quick and dirty script to make a calendar todo template for organizing 
+# tasks and events.
+# Author: Camilo Tejeiro
+# ======================================================================
+
+if [ -e $1 ]; then # check to avoid overwriting existing files.
+    echo "File $1 already exists"
+elif [ -z $2 ]; then # check if second parametter is empty.
+    echo "you need to specify a valid year."
+else
+    # initialize our local vars for our script.
+    current_date="$2-01-01"
+    end_date="$2-12-31"
+    print_date=$(date -d "$current_date" +%a\ %m/%d/%Y)
+
+    # Print greeting message.
+    echo "* Creating $1 Template for year $2 * "
+    echo "Starting Date: $current_date"
+    echo "End Date: $end_date"
+
+    # Print the header lines.
+    echo "**************************" > $1
+    echo "# Personal Calendar Todo #" >> $1
+    echo "--------------------------" >> $1
+    echo "##         $2         ##" >> $1
+    echo "**************************" >> $1
+    echo "" >> $1
+
+    # Print first date.
+    echo "----------------------" >> $1
+    echo "### $print_date ###" >> $1
+    echo "----------------------" >> $1
+    echo "" >> $1
+    echo "" >> $1
+
+    # Iterate and print every day in the current year.
+    while [ "$current_date" != "$end_date" ]; do
+        current_date=$(date -d "$current_date 1 days" +%Y-%m-%d)
+        print_date=$(date -d "$current_date" +%a\ %m/%d/%Y)
+
+        echo "----------------------" >> $1
+        echo "### $print_date ###" >> $1
+        echo "----------------------" >> $1
+        echo "" >> $1
+        echo "" >> $1
+    done
+fi
