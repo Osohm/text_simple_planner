@@ -1,9 +1,9 @@
-TextSip - Text Simple Planner
+SipText - Text Simple Planner
 =============================
 
 No fancy apps, plain and simple, just text...
 
-    \ textSip /
+    \ SipText /
      \_______/
          |
          |
