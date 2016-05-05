@@ -1,19 +1,51 @@
 #!/bin/bash
 # ======================================================================
 # Search Notes Script.
-# Quick grep script we can use to search throughout our storage directory 
+# Quick script we can use to search throughout our storage directory 
 # for a certain string.
-# Author: Camilo Tejeiro
+#
+# * It supports text files in the following formats: 
+#   - text: .txt
+#   - markdown: .markdown .md
+#   - asciidoc: .asciidoc .adoc, .asc
+# * It supports open document formats
+#   - word processing: .odt
+#   - spreadsheets: .ods
+#   - presentations: .odp
+#
+# This is not supposed to be a catch all search script, it will only 
+# support the file extensions we use for storing our notes. 
 # ======================================================================
 
 # Current search directory (change to whatever you please)
 search_directory='/media/camilo/main_storage/'
 
-if [ -z $1 ]; then
+echo "Phrases with multiple words must be enclosed in single quotes."
+
+if [[ -z $1 ]]; then
     echo 'search_notes[1]: missing string'
     echo 'please pass in a valid string to search for' 
 else
-    # Search only text files. Search recursively, display line number,  
-    # ignore case and match whole word.
-    grep --include=*.txt -rniw "$1" "$search_directory"
+    echo ''
+    echo '* Searching in plain text files.'
+    # Search for text based files. 
+    # Search recursively, display line number, ignore case and match 
+    # whole word.
+    grep --include=*.{txt,markdown,md,asciidoc,adoc,asc} -rniw "$1" "$search_directory"
+    
+    echo ''
+    echo '* Searching in open document files.'
+    # Search for open document files.
+    # First set the internal file separation to the newline
+    # then find every file with an open document extension.
+    # for every open document file unzip the open document archive and 
+    # pipe it to grep to search inside for the desired string. 
+    # If greps suceeds echo the filename out to the terminal.
+    IFS=$'\n'
+    for file in $(find "$search_directory" -type f -name *.odt -o -name *.ods -o -name *.odp); do
+        unzip -ca "$file" content.xml | grep -qli "$1"
+        if [ $? -eq 0 ]; then
+            echo "$file"
+        fi
+    done
 fi
