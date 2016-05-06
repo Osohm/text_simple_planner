@@ -17,20 +17,51 @@
 # support the file extensions we use for storing our notes. 
 # ======================================================================
 
-echo 'search_notes is a little script you can use to find text in your notes'
-echo "Required argument [1]: 'search phrase' (Phrases with multiple words \
-must be enclosed in single quotes)"
-echo "Optional argument [2]: search_directory."
-echo "* If no [2] argument is provided the shell 'MAIN_STORAGE' environment \
-variable will be used, if this variable is not set the current 
-directory will be used."
 
-# use our user environment variable (change/remove to fit your needs)
-search_directory=$MAIN_STORAGE
+print_help() 
+{
+    printf "%s\n\n" "Usage: `basename $0` [-h] [<arguments>]"
+    
+    printf "%s\n" 'Find specific text in your note file(s). Files supported:'
+    printf "%s\n" '* plain text files: text, markdown, asciidoc.'
+    printf "%s\n\n" '* Open documents: word processing, spreadsheets, presentations'
+    
+    printf "%s\n" 'Commands:'
+    printf "\t%s\t%s\n\n" '-h' 'Display this help message.'
 
-# Search directory: use use second argument if available, otherwise 
-# use user environment variable if available, otherwise 
-# just use the current current directory.
+    printf "%s\n" 'Arguments:'
+    printf "%s" "* [1] Required argument: 'search phrase' (multiple "
+    printf "%s\n" 'words must be enclosed in single quotes).'
+    printf "%s\n\n" "* [2] Optional argument: search_directory."
+    
+    printf "%s" "If no [2] argument is provided the shell 'SEARCH_NOTES_DIR' "
+    printf "%s" "environment variable will be used, if this variable is " 
+    printf "%s\n\n" "not set, the current directory './' will be used."
+
+    printf "%s\n" "Examples:"
+    printf "\t%s\n" 'search_notes payments'
+    printf "\t%s\n" "search_notes 'parking ticket'"
+    printf "\t%s\n" 'search_notes payments ~/documents/'
+}
+
+
+# Exit conditions, help routines
+if [[ -z $1 ]]; then
+    printf "%s\n" 'search_notes: missing search phrase.'
+    printf "%s\n" "Type 'search_notes -h' for more information."
+    exit 0
+elif [ "$1" == "-h" ]; then 
+    print_help
+    exit 0
+fi
+
+# use our user environment variable if available.
+search_directory=$SEARCH_NOTES_DIR
+
+# Search directory selection: 
+# 1. Use use second argument if available, otherwise 
+# 2. Use user environment variable if available, otherwise 
+# 3. Just use the current current directory.
 if [[ -z $2 ]]; then
     if [[ -z $search_directory ]]; then
         search_directory='.'
@@ -39,32 +70,30 @@ else
     search_directory=$2
 fi
 
-echo ''
-echo "* search directory: $search_directory"
-  
-if [[ -z $1 ]]; then
-    echo 'search_notes[1]: missing string'
-    echo 'please pass in a valid string to search for' 
-else
-    echo '* Searching in plain text files.'
-    # Search for text based files. 
-    # Search recursively, display line number, ignore case and match 
-    # whole word.
-    grep --include=*.{txt,markdown,md,asciidoc,adoc,asc} -rniw "$1" "$search_directory"
-    
-    echo ''
-    echo '* Searching in open document files.'
-    # Search for open document files.
-    # First set the internal file separation to the newline
-    # then find every file with an open document extension.
-    # for every open document file unzip the open document archive and 
-    # pipe it to grep to search inside for the desired string. 
-    # If greps suceeds echo the filename out to the terminal.
-    IFS=$'\n'
-    for file in $(find "$search_directory" -type f -name *.odt -o -name *.ods -o -name *.odp); do
-        unzip -ca "$file" content.xml | grep -qli "$1"
-        if [ $? -eq 0 ]; then
-            echo "$file"
-        fi
-    done
-fi
+# ---
+# Search Logic
+# ---
+
+printf "%s\n\n" "Search directory: $search_directory"
+
+printf "%s\n" '* Searching in plain text files.'
+# Search for text based files. 
+# Search recursively, display line number, ignore case and match 
+# whole word.
+grep --include=*.{txt,markdown,md,asciidoc,adoc,asc} -rniw "$1" "$search_directory"
+
+
+printf "\n%s\n" '* Searching in open document files.'
+# Search for open document files.
+# First set the internal file separation to the newline
+# then find every file with an open document extension.
+# for every open document file unzip the open document archive and 
+# pipe it to grep to search inside for the desired string. 
+# If greps suceeds echo the filename out to the terminal.
+IFS=$'\n'
+for file in $(find "$search_directory" -type f -name *.odt -o -name *.ods -o -name *.odp); do
+    unzip -ca "$file" content.xml | grep -qli "$1"
+    if [ $? -eq 0 ]; then
+        echo "$file"
+    fi
+done
