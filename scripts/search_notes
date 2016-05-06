@@ -17,21 +17,35 @@
 # support the file extensions we use for storing our notes. 
 # ======================================================================
 
+echo 'search_notes is a little script you can use to find text in your notes'
+echo "Required argument [1]: 'search phrase' (Phrases with multiple words \
+must be enclosed in single quotes)"
+echo "Optional argument [2]: search_directory."
+echo "* If no [2] argument is provided the shell 'MAIN_STORAGE' environment \
+variable will be used, if this variable is not set the current 
+directory will be used."
+
 # use our user environment variable (change/remove to fit your needs)
 search_directory=$MAIN_STORAGE
 
-# Search directory: use environment variable otherwise current dir
-if [[ -z $search_directory ]]; then
-    search_directory='.'
+# Search directory: use use second argument if available, otherwise 
+# use user environment variable if available, otherwise 
+# just use the current current directory.
+if [[ -z $2 ]]; then
+    if [[ -z $search_directory ]]; then
+        search_directory='.'
+    fi
+else
+    search_directory=$2
 fi
 
-echo "Phrases with multiple words must be enclosed in single quotes."
-
+echo ''
+echo "* search directory: $search_directory"
+  
 if [[ -z $1 ]]; then
     echo 'search_notes[1]: missing string'
     echo 'please pass in a valid string to search for' 
 else
-    echo ''
     echo '* Searching in plain text files.'
     # Search for text based files. 
     # Search recursively, display line number, ignore case and match 
