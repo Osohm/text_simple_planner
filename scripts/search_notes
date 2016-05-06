@@ -17,8 +17,13 @@
 # support the file extensions we use for storing our notes. 
 # ======================================================================
 
-# Current search directory (change to whatever you please)
-search_directory='/media/camilo/main_storage/'
+# use our user environment variable (change/remove to fit your needs)
+search_directory=$MAIN_STORAGE
+
+# Search directory: use environment variable otherwise current dir
+if [[ -z $search_directory ]]; then
+    search_directory='.'
+fi
 
 echo "Phrases with multiple words must be enclosed in single quotes."
 
