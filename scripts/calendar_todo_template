@@ -7,9 +7,9 @@
 # ======================================================================
 
 if [ -e $1 ]; then # check to avoid overwriting existing files.
-    echo "File $1 already exists"
+    printf "%s\n" "File $1 already exists"
 elif [ -z $2 ]; then # check if second parametter is empty.
-    echo "you need to specify a valid year."
+    printf "%s\n" 'you need to specify a valid year.'
 else
     # initialize our local vars for our script.
     current_date="$2-01-01"
@@ -17,34 +17,29 @@ else
     print_date=$(date -d "$current_date" +%a\ %m/%d/%Y)
 
     # Print greeting message.
-    echo "* Creating $1 Template for year $2 * "
-    echo "Starting Date: $current_date"
-    echo "End Date: $end_date"
+    printf "%s\n" "* Creating $1 Template for year $2 * "
+    printf "%s\n" "Starting Date: $current_date"
+    printf "%s\n" "End Date: $end_date"
 
     # Print the header lines.
-    echo "**************************" > $1
-    echo "# Personal Calendar Todo #" >> $1
-    echo "--------------------------" >> $1
-    echo "##         $2         ##" >> $1
-    echo "**************************" >> $1
-    echo "" >> $1
+    printf "%s\n" '**************************' > $1
+    printf "%s\n" '# Personal Calendar Todo #' >> $1
+    printf "%s\n" '--------------------------' >> $1
+    printf "%s\n" "##         $2         ##" >> $1
+    printf "%s\n\n" '**************************' >> $1
 
     # Print first date.
-    echo "----------------------" >> $1
-    echo "### $print_date ###" >> $1
-    echo "----------------------" >> $1
-    echo "" >> $1
-    echo "" >> $1
+    printf "%s\n" '--------------------' >> $1
+    printf "%s\n" "## $print_date ##" >> $1
+    printf "%s\n\n\n" '--------------------' >> $1
 
     # Iterate and print every day in the current year.
     while [ "$current_date" != "$end_date" ]; do
         current_date=$(date -d "$current_date 1 days" +%Y-%m-%d)
         print_date=$(date -d "$current_date" +%a\ %m/%d/%Y)
 
-        echo "----------------------" >> $1
-        echo "### $print_date ###" >> $1
-        echo "----------------------" >> $1
-        echo "" >> $1
-        echo "" >> $1
+        printf "%s\n" '--------------------' >> $1
+        printf "%s\n" "## $print_date ##" >> $1
+        printf "%s\n\n\n" '--------------------' >> $1
     done
 fi

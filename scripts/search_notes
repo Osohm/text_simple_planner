@@ -46,7 +46,7 @@ print_help()
 
 
 # Exit conditions, help routines
-if [[ -z $1 ]]; then
+if [ -z "$1" ]; then
     printf "%s\n" 'search_notes: missing search phrase.'
     printf "%s\n" "Type 'search_notes -h' for more information."
     exit 0
@@ -62,8 +62,8 @@ search_directory=$SEARCH_NOTES_DIR
 # 1. Use use second argument if available, otherwise 
 # 2. Use user environment variable if available, otherwise 
 # 3. Just use the current current directory.
-if [[ -z $2 ]]; then
-    if [[ -z $search_directory ]]; then
+if [ -z "$2" ]; then
+    if [ -z "$search_directory" ]; then
         search_directory='.'
     fi
 else
