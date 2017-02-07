@@ -2,15 +2,15 @@
 # Personal Ideas and Projects #
 *******************************
 
-***********************
-## Quick Guidelines  ##
-***********************
+-----------------------
+## Quick Guidelines. ##
+-----------------------
 Only project ideas and ongoing projects should be here, the rest should 
 be moved out and stored in our textpad for reference.  
 
-**********************
+----------------------
 ## Current Projects ##
-**********************
+----------------------
 
 ----
 ### Project Name
@@ -24,9 +24,9 @@ Description of project.
 
 ...
 
-*********************
+---------------------
 ## Future Projects ##
-*********************
+---------------------
 
 ----
 ### Project Name
