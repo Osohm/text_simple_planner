@@ -56,7 +56,7 @@ elif [ "$1" == "-h" ]; then
 fi
 
 # use our user environment variable if available.
-search_directory=$SEARCH_NOTES_DIR
+search_directory=$DATA_DIR
 
 # Search directory selection: 
 # 1. Use use second argument if available, otherwise 
